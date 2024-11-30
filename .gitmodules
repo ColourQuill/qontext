@@ -1,0 +1,3 @@
+[submodule "external/qarbon"]
+	path = external/qarbon
+	url = https://github.com/ColourQuill/qarbon
