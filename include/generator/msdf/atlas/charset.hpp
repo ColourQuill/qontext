@@ -6,9 +6,6 @@
 #include <cstdint>
 #include <set>
 
-// msdf
-#include <generator/msdf/atlas/types.hpp>
-
 namespace qtxt {
     class Charset {
         public:
