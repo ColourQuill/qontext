@@ -6,9 +6,9 @@
 // msdf
 #include <generator/msdf/core/arithmetic.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     static double shoelace(const vec2& a, const vec2& b) {
         return (b.x - a.x) * (a.y + b.y);
     }

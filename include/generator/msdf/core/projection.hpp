@@ -4,9 +4,9 @@
 // qarbon
 #include <qarbon.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     class Projection {
         public:
             Projection();

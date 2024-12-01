@@ -15,30 +15,30 @@
 #include <generator/msdf/core/glyph.hpp>
 #include <generator/msdf/core/resolve_shape_geometry.hpp>
 
-using SIMPLEGLYPH = qtxt::GLYF::SIMPLEGLYPH;
-using COMPOUNDGLYPH = qtxt::GLYF::COMPOUNDGLYPH;
-using COMPONENTGLYPH = COMPOUNDGLYPH::COMPONENTGLYPH;
-using TRANSFORM0 = COMPONENTGLYPH::TRANSFORM0;
-using TRANSFORM1 = COMPONENTGLYPH::TRANSFORM1;
-using TRANSFORM2 = COMPONENTGLYPH::TRANSFORM2;
-using TRANSFORM3 = COMPONENTGLYPH::TRANSFORM3;
-using GLYPH = qtxt::GLYF::GLYPH;
-
-using FORMAT = qtxt::CMAP::FORMAT;
-using FORMAT0 = qtxt::CMAP::FORMAT0;
-using FORMAT2 = qtxt::CMAP::FORMAT2;
-using FORMAT4 = qtxt::CMAP::FORMAT4;
-using FORMAT6 = qtxt::CMAP::FORMAT6;
-using FORMAT8 = qtxt::CMAP::FORMAT8;
-using FORMAT10 = qtxt::CMAP::FORMAT10;
-using FORMAT12 = qtxt::CMAP::FORMAT12;
-using FORMAT13 = qtxt::CMAP::FORMAT13;
-using FORMAT14 = qtxt::CMAP::FORMAT14;
-using SUBTABLE = qtxt::CMAP::SUBTABLE;
-
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using SIMPLEGLYPH = GLYF::SIMPLEGLYPH;
+    using COMPOUNDGLYPH = GLYF::COMPOUNDGLYPH;
+    using COMPONENTGLYPH = COMPOUNDGLYPH::COMPONENTGLYPH;
+    using TRANSFORM0 = COMPONENTGLYPH::TRANSFORM0;
+    using TRANSFORM1 = COMPONENTGLYPH::TRANSFORM1;
+    using TRANSFORM2 = COMPONENTGLYPH::TRANSFORM2;
+    using TRANSFORM3 = COMPONENTGLYPH::TRANSFORM3;
+    using GLYPH = GLYF::GLYPH;
+
+    using FORMAT = CMAP::FORMAT;
+    using FORMAT0 = CMAP::FORMAT0;
+    using FORMAT2 = CMAP::FORMAT2;
+    using FORMAT4 = CMAP::FORMAT4;
+    using FORMAT6 = CMAP::FORMAT6;
+    using FORMAT8 = CMAP::FORMAT8;
+    using FORMAT10 = CMAP::FORMAT10;
+    using FORMAT12 = CMAP::FORMAT12;
+    using FORMAT13 = CMAP::FORMAT13;
+    using FORMAT14 = CMAP::FORMAT14;
+    using SUBTABLE = CMAP::SUBTABLE;
+
+    using vec2 = qbn::vec2<double>;
+
     struct TempPoint {
         vec2 coords;
         bool onCurve;

@@ -8,9 +8,9 @@
 #include <generator/msdf/core/arithmetic.hpp>
 #include <generator/msdf/core/image_ref.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     template<typename T, int N>
     static void Interpolate(T* output, const ImageConstRef<T, N>& image, vec2 pos) {
         pos.x -= 0.5;

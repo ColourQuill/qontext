@@ -4,8 +4,6 @@
 // qarbon
 #include <qarbon.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 // msdf
 #include <generator/msdf/core/signed_distance.hpp>
 #include <generator/msdf/core/edge_color.hpp>
@@ -14,6 +12,8 @@ using vec2 = qbn::vec2<double>;
 #define MSDF_CUBIC_SEARCH_STEPS 4
 
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     class EdgeSegment {
         public:
             EdgeColor color;

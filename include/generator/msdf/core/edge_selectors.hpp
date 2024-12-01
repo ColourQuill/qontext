@@ -7,9 +7,9 @@
 // msdf
 #include <generator/msdf/core/signed_distance.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     // forward declarations
     class EdgeSegment;
 

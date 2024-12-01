@@ -6,9 +6,9 @@
 #include <generator/msdf/core/pixel_conversion.hpp>
 #include <generator/msdf/core/bitmap_interpolation.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     static float DistVal(float dist, DistanceMapping mapping) {
         return (float)clamp(mapping(dist) + 0.5);
     }

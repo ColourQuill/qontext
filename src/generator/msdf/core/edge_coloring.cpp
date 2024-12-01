@@ -18,9 +18,9 @@
 #include <generator/msdf/core/contour.hpp>
 #include <generator/msdf/core/shape.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     static int SymmetricalTrichotomy(int position, int n) {
         return int(3 + 2.875 * position / (n - 1) - 1.4375 + 0.5) - 3;
     }

@@ -9,9 +9,9 @@
 #include <generator/msdf/core/sdf_transformation.hpp>
 #include <generator/msdf/core/msdf_generator_config.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+    
     // forward declarations
     struct Range;
     class Projection;

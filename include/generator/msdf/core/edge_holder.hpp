@@ -8,9 +8,9 @@
 #include <generator/msdf/core/edge_color.hpp>
 #include <generator/msdf/core/edge_segments.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     class EdgeHolder {
         public:
             static void Swap(EdgeHolder& a, EdgeHolder& b);

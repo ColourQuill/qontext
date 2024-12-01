@@ -11,9 +11,9 @@
 #include <generator/msdf/core/scanline.hpp>
 #include <generator/msdf/core/image_ref.hpp>
 
-using vec2 = qbn::vec2<double>;
-
 namespace qtxt {
+    using vec2 = qbn::vec2<double>;
+
     // forward declarations
     class Projection;
     class Shape;
