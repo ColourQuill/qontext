@@ -6,13 +6,6 @@ set(BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(INCLUDE_DIR ${BASE_DIR}/include)
 set(SRC_DIR ${BASE_DIR}/src)
 
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -g")
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fsanitize=address")
-
-
 # *********************************************************************************************
 #                                        CMAKE OUTPUT
 # *********************************************************************************************
