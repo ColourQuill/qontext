@@ -2,6 +2,7 @@
 
 // std
 #include <vector>
+#include <iostream>
 
 // msdf
 #include <generator/msdf/atlas/rectangle.hpp>
@@ -22,11 +23,11 @@ namespace qtxt {
         scaleMaximizationTolerance{0.001}
     {}
 
-    int TightAtlasPacker::TryPack(GlyphGeometry* glyphs, int count, DimensionsConstraint dimensionsConstraint, int& width, int& height, double scale) const {
+    int TightAtlasPacker::TryPack(std::vector<GlyphGeometry*>& glyphs, DimensionsConstraint dimensionsConstraint, int& width, int& height, double scale) const {
         std::vector<Rectangle> rectangles;
         std::vector<GlyphGeometry*> rectangleGlyphs;
-        rectangles.reserve(count);
-        rectangleGlyphs.reserve(count);
+        rectangles.reserve(glyphs.size());
+        rectangleGlyphs.reserve(glyphs.size());
         GlyphGeometry::GlyphAttributes attribs = {};
         attribs.scale = scale;
         attribs.range = unitRange + pxRange / scale;
@@ -35,10 +36,10 @@ namespace qtxt {
         attribs.miterLimit = miterLimit;
         attribs.pxAlignOriginX = pxAlignOriginX;
         attribs.pxAlignOriginY = pxAlignOriginY;
-        for (GlyphGeometry* glyph = glyphs, *end = glyphs + count; glyph < end; ++glyph) {
+        for (auto& glyph : glyphs) {
             if (!glyph->isWhitespace()) {
                 Rectangle rect = {};
-                glyph->WrapBox(attribs);
+                glyph->WrapBox(attribs);      
                 glyph->GetBoxSize(rect.w, rect.h);
                 if (rect.w > 0 && rect.h > 0) {
                     rectangles.push_back(rect);
@@ -91,10 +92,10 @@ namespace qtxt {
         return 0;
     }
 
-    double TightAtlasPacker::PackAndScale(GlyphGeometry* glyphs, int count) const {
+    double TightAtlasPacker::PackAndScale(std::vector<GlyphGeometry*>& glyphs) const {
         bool lastResult = false;
         int w = width, h = height;
-        #define TRY_PACK(scale) (lastResult = !TryPack(glyphs, count, DimensionsConstraint(), w, h, (scale)))
+        #define TRY_PACK(scale) (lastResult = !TryPack(glyphs, DimensionsConstraint(), w, h, (scale)))
         double minScale = 1, maxScale = 1;
         if (TRY_PACK(1)) {
             while (maxScale < 1e+32 && ((maxScale = 2 * minScale), TRY_PACK(maxScale))) {
@@ -122,17 +123,17 @@ namespace qtxt {
         return minScale;
     }
 
-    int TightAtlasPacker::Pack(GlyphGeometry* glyphs, int count) {
+    int TightAtlasPacker::Pack(std::vector<GlyphGeometry*>& glyphs) {
         double initialScale = scale > 0 ? scale : minScale;
         if (initialScale > 0) {
-            if (int remaining = TryPack(glyphs, count, dimensionsConstraint, width, height, initialScale)) {
+            if (int remaining = TryPack(glyphs, dimensionsConstraint, width, height, initialScale)) {
                 return remaining;
             }
         } else if (width < 0 || height < 0) {
             return -1;
         }
         if (scale <= 0) {
-            scale = PackAndScale(glyphs, count);
+            scale = PackAndScale(glyphs);
         }
         if (scale <= 0) {
             return -1;

@@ -33,22 +33,7 @@ namespace qtxt {
         auto range = glyph.GetBoxRange();
         SDFTransformation transformation = SDFTransformation(glyph.GetBoxProjection(), glyph.GetBoxRange());
         auto& shape = glyph.GetShape();
-        // std::cout << glyph.GetCodepoint() << std::endl;
-        // for (auto& contour : shape.contours) {
-        //     for (auto& edge : contour.edges) {
-        //         int type = (*edge).Type();
-        //         const vec2* points = (*edge).ControlPoints();
-        //         for (int i = 0; i < type; ++i) {
-        //             std::cout << points[i] << std::endl;
-        //         }
-        //     }
-        // }
         GenerateMSDF(output, shape, transformation, config);
-        // for (int i = 0; i < output.height; ++i) {
-        //     for (int j = 0; j < output.width; ++j) {
-        //         std::cout << output.pixels[j + i * output.width] << '\n';
-        //     }
-        // }
         if (attribs.scanlinePass) {
             DistanceSignCorrection(output, glyph.GetShape(), glyph.GetBoxProjection(), MSDF_ATLAS_GLYPH_FILL_RULE);
             if (attribs.config.errorCorrection.mode != ErrorCorrectionConfig::DISABLED) {

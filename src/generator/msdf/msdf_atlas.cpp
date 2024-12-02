@@ -8,13 +8,13 @@
 
 namespace qtxt {
     Image<uint8_t, 1> GenerateSDFAtlas(FontGeometry& fontGeometry, AtlasConfig config) {
-        std::vector<qtxt::GlyphGeometry> glyphs = fontGeometry.GetGlyphs();
+        std::vector<qtxt::GlyphGeometry*> glyphs = fontGeometry.GetGlyphPtrs();
 
         TightAtlasPacker packer;
 
         const double maxCornerAngle = 3.0;
         for (auto glyph : glyphs) {
-            glyph.EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
+            glyph->EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
         }
 
         packer.SetDimensionsConstraint(config.constraint);
@@ -22,7 +22,7 @@ namespace qtxt {
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
 
-        packer.Pack(glyphs.data(), glyphs.size());
+        packer.Pack(glyphs);
 
         int width = 0, height = 0;
         packer.GetDimensions(width, height);
@@ -33,7 +33,7 @@ namespace qtxt {
         generator.SetAttributes(attributes);
         generator.SetThreadCount(4);
 
-        generator.Generate(glyphs.data(), glyphs.size());
+        generator.Generate(glyphs);
 
         return generator.GetStorage().image;
     }
@@ -42,13 +42,13 @@ namespace qtxt {
         return GenerateSDFAtlas(fontGeometry, config);
     }
     Image<uint8_t, 1> GeneratePSDFAtlas(FontGeometry& fontGeometry, AtlasConfig config) {
-        std::vector<qtxt::GlyphGeometry> glyphs = fontGeometry.GetGlyphs();
+        std::vector<qtxt::GlyphGeometry*> glyphs = fontGeometry.GetGlyphPtrs();
 
         TightAtlasPacker packer;
 
         const double maxCornerAngle = 3.0;
         for (auto glyph : glyphs) {
-            glyph.EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
+            glyph->EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
         }
 
         packer.SetDimensionsConstraint(config.constraint);
@@ -56,7 +56,7 @@ namespace qtxt {
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
 
-        packer.Pack(glyphs.data(), glyphs.size());
+        packer.Pack(glyphs);
 
         int width = 0, height = 0;
         packer.GetDimensions(width, height);
@@ -67,7 +67,7 @@ namespace qtxt {
         generator.SetAttributes(attributes);
         generator.SetThreadCount(4);
 
-        generator.Generate(glyphs.data(), glyphs.size());
+        generator.Generate(glyphs);
 
         return generator.GetStorage().image;
     }
@@ -76,13 +76,13 @@ namespace qtxt {
         return GeneratePSDFAtlas(fontGeometry, config);
     }
     Image<uint8_t, 3> GenerateMSDFAtlas(FontGeometry& fontGeometry, AtlasConfig config) {
-        std::vector<qtxt::GlyphGeometry> glyphs = fontGeometry.GetGlyphs();
+        std::vector<qtxt::GlyphGeometry*> glyphs = fontGeometry.GetGlyphPtrs();
 
         TightAtlasPacker packer;
 
         const double maxCornerAngle = 3.0;
         for (auto glyph : glyphs) {
-            glyph.EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
+            glyph->EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
         }
 
         packer.SetDimensionsConstraint(config.constraint);
@@ -90,7 +90,7 @@ namespace qtxt {
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
 
-        packer.Pack(glyphs.data(), glyphs.size());
+        packer.Pack(glyphs);
 
         int width = 0, height = 0;
         packer.GetDimensions(width, height);
@@ -101,7 +101,7 @@ namespace qtxt {
         generator.SetAttributes(attributes);
         generator.SetThreadCount(4);
 
-        generator.Generate(glyphs.data(), glyphs.size());
+        generator.Generate(glyphs);
 
         return generator.GetStorage().image;
     }
@@ -110,13 +110,13 @@ namespace qtxt {
         return GenerateMSDFAtlas(fontGeometry, config);
     }
     Image<uint8_t, 4> GenerateMTSDFAtlas(FontGeometry& fontGeometry, AtlasConfig config) {
-        std::vector<qtxt::GlyphGeometry> glyphs = fontGeometry.GetGlyphs();
+        std::vector<qtxt::GlyphGeometry*> glyphs = fontGeometry.GetGlyphPtrs();
 
         TightAtlasPacker packer;
 
         const double maxCornerAngle = 3.0;
         for (auto glyph : glyphs) {
-            glyph.EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
+            glyph->EdgeColoring(&qtxt::EdgeColoringInkTrap, maxCornerAngle, 0);
         }
 
         packer.SetDimensionsConstraint(config.constraint);
@@ -124,7 +124,7 @@ namespace qtxt {
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
 
-        packer.Pack(glyphs.data(), glyphs.size());
+        packer.Pack(glyphs);
 
         int width = 0, height = 0;
         packer.GetDimensions(width, height);
@@ -135,7 +135,7 @@ namespace qtxt {
         generator.SetAttributes(attributes);
         generator.SetThreadCount(4);
 
-        generator.Generate(glyphs.data(), glyphs.size());
+        generator.Generate(glyphs);
 
         return generator.GetStorage().image;
     }

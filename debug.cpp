@@ -4,6 +4,8 @@
 
 #include <msdf/msdf_atlas.hpp>
 
+#include <msdf/atlas/font_geometry.hpp>
+
 namespace qtxt {
     template<typename T>
     static bool WriteValue(FILE* file, T value) {
@@ -179,8 +181,9 @@ namespace qtxt {
 
 int main() {
     qtxt::MSDFFont font("resources/arial.ttf");
+    qtxt::FontGeometry fontGeometry(font, qtxt::Charset::ASCII);
 
-    auto image = qtxt::GenerateMSDFAtlas(font, qtxt::Charset::ASCII);
+    auto image = qtxt::GenerateMSDFAtlas(fontGeometry);
 
     qtxt::SaveBMP(image, "atlas.bmp");
 

@@ -11,7 +11,7 @@ namespace qtxt {
         public:
             TightAtlasPacker();
 
-            int Pack(GlyphGeometry* glyphs, int count);
+            int Pack(std::vector<GlyphGeometry*>& glyphs);
 
             void SetDimensions(int width, int height);
             void UnsetDimensions();
@@ -52,8 +52,8 @@ namespace qtxt {
             Padding innerPxPadding, outerPxPadding;
             double scaleMaximizationTolerance;
 
-            int TryPack(GlyphGeometry* glyphs, int count, DimensionsConstraint dimensionsConstraint, int& width, int& height, double scale) const;
-            double PackAndScale(GlyphGeometry* glyphs, int count) const;
+            int TryPack(std::vector<GlyphGeometry*>& glyphs, DimensionsConstraint dimensionsConstraint, int& width, int& height, double scale) const;
+            double PackAndScale(std::vector<GlyphGeometry*>& glyphs) const;
     };
 }
 

@@ -638,17 +638,6 @@ namespace qtxt {
         ttf.glyf.numGlyphs = ttf.maxp.numGlyphs;
         for (int i = 0; i < ttf.maxp.numGlyphs; ++i) {
             GLYPH* glyph = ReadGlyph(this, ttf.loca.glyphOffsets[i] + ttf.glyf.offset, i);
-            // if (i == 0) {
-            //     if (glyph->glyphType == 0) {
-            //         SIMPLEGLYPH* simple_glyph = dynamic_cast<SIMPLEGLYPH*>(glyph);
-            //         std::cout << simple_glyph->numberOfContours << std::endl;
-            //         std::cout << simple_glyph->endPtsOfContours[simple_glyph->numberOfContours - 1] << std::endl;
-            //         for (int i = 0; i < simple_glyph->endPtsOfContours[simple_glyph->numberOfContours - 1] + 1; ++i) {
-            //             std::cout << simple_glyph->points[i].coordinates << std::endl;
-            //         }
-            //     }
-            // }
-            
             ttf.glyf.glyphs[i] = glyph;
         }
     }

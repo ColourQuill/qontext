@@ -225,15 +225,7 @@ namespace qtxt {
                 const TempPoint& p0 = points[i];
                 const TempPoint& p1 = points[(i + 1) % numPoints];
 
-                // if (j == debug) {
-                //     std::cout << "Point: " << p0.coords << " | " << p0.onCurve << '\n';
-                //     std::cout << "Point: " << p1.coords << " | " << p1.onCurve << '\n';
-                // }
-
                 if (p1.onCurve) {
-                    // if (j == debug) {
-                    //     std::cout << '2' << std::endl;
-                    // }
                     vec2 start = p0.coords;
                     vec2 end = p1.coords;
                     contour.AddEdge(EdgeHolder(start, end));
@@ -242,14 +234,7 @@ namespace qtxt {
 
                 const TempPoint& p2 = points[(i + 2) % numPoints];
 
-                // if (j == debug) {
-                //     std::cout << "Point: " << p2.coords << " | " << p2.onCurve << '\n';
-                // }
-
                 if (p2.onCurve) {
-                    // if (j == debug) {
-                    //     std::cout << '3' << std::endl;
-                    // }
                     vec2 start = p0.coords;
                     vec2 control = p1.coords;
                     vec2 end = p2.coords;
@@ -259,14 +244,6 @@ namespace qtxt {
                 }
 
                 const TempPoint& p3 = points[(i + 3) % numPoints];
-
-                // if (j == debug) {
-                //     std::cout << "Point: " << p3.coords << " | " << p3.onCurve << '\n';              
-                // }
-
-                // if (j == debug) {
-                //     std::cout << '4' << std::endl;
-                // }
                 vec2 start = p0.coords;
                 vec2 control1 = p1.coords;
                 vec2 control2 = p2.coords;
@@ -362,18 +339,6 @@ namespace qtxt {
 
         for (int i = 0; i < ttf.glyf.numGlyphs; ++i) {
             Shape shape = ttf.glyf.glyphs[i]->glyphType ? CreateShapeFromCompoundGlyph(ttf.glyf.glyphs, i) : CreateShapeFromSimpleGlyph(dynamic_cast<SIMPLEGLYPH*>(ttf.glyf.glyphs[i]), i, 816);
-            // if (i == 816) {
-            //     for (auto& contour : shape.contours) {
-            //         std::cout << "Contour: " << std::endl;
-            //         for (auto& edge : contour.edges) {
-            //             auto points = edge->ControlPoints();
-            //             for (int i = 0; i < (*edge).Type(); ++i) {
-            //                 auto point = points[i];
-            //                 std::cout << "(" << point.x << ", " << point.y << ")" << std::endl;
-            //             }
-            //         }
-            //     }
-            // }
             GlyphMetrics glyphMetrics = GetMetrics(ttf, i);
             // ResolveShapeGeometry(shape);
             glyphs.push_back(Glyph(shape, glyphMetrics, i));

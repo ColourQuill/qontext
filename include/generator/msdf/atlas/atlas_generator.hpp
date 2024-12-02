@@ -27,10 +27,10 @@ namespace qtxt {
             template<typename... Args>
             AtlasGenerator(int width, int height, Args... args) : storage{width, height, args...}, threadCount{1} {}
             
-            void Generate(const GlyphGeometry* glyphs, int count) {
+            void Generate(std::vector<qtxt::GlyphGeometry*>& glyphs) {
                 int maxBoxArea = 0;
-                for (int i = 0; i < count; ++i) {
-                    GlyphBox box = glyphs[i];
+                for (int i = 0; i < glyphs.size(); ++i) {
+                    GlyphBox box = *glyphs[i];
                     maxBoxArea = std::max(maxBoxArea, box.rect.w * box.rect.h);
                     layout.push_back(box);
                 }
@@ -48,22 +48,16 @@ namespace qtxt {
                 }
 
                 Workload([this, glyphs, &threadAttributes, threadBufferSize](int i, int threadNo) -> bool {
-                    const GlyphGeometry& glyph = glyphs[i];
-                    if (!glyph.isWhitespace()) {
+                    const GlyphGeometry* glyph = glyphs[i];
+                    if (!glyph->isWhitespace()) {
                         int l, b, w, h;
-                        glyph.GetBoxRect(l, b, w, h);
+                        glyph->GetBoxRect(l, b, w, h);
                         Image<T, N> glyphImage(w, h);
-                        GEN_FN(glyphImage, glyph, threadAttributes[threadNo]);
-                        // for (int y = 0; y < glyphImage.Height(); ++y) {
-                        //     for (int x = 0; x < glyphImage.Width(); ++x) {
-                        //         auto point = glyphImage(x, y);
-                        //         std::cout << "(" << point[0] << ", " << point[1]  << ", " << point[2] << ")" << std::endl;
-                        //     }
-                        // }
+                        GEN_FN(glyphImage, *glyph, threadAttributes[threadNo]);
                         storage.Put(l, b, ImageConstRef<T, N>(glyphImage));
                     }
                     return true;
-                }, count).Finish(threadCount);
+                }, glyphs.size()).Finish(threadCount);
             }
             void Rearrange(int width, int height, const Remap* remapping, int count) {
                 for (int i = 0; i < count; ++i) {
