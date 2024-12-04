@@ -20,6 +20,8 @@ namespace qtxt {
             const GlyphGeometry* GetGlyph(uint32_t codepoint) const;
 
             double GetAdvance(uint32_t codepointA, uint32_t codepointB) const;
+            double GetCapHeight() const;
+            double GetXHeight() const;
 
             const std::map<std::pair<int, int>, int>& GetKerning() const;
 
@@ -33,6 +35,9 @@ namespace qtxt {
             std::map<uint32_t, GlyphGeometry> glyphs;
 
             double geometryScale;
+
+            double capHeight{0.0};
+            double xHeight{0.0};
     };
 }
 

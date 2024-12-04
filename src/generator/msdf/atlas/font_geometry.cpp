@@ -3,6 +3,9 @@
 // std
 #include <ranges>
 
+// msdf
+#include <generator/msdf/core/glyph.hpp>
+
 namespace qtxt {
     FontGeometry::FontGeometry(MSDFFont& font, Charset charset, double fontScale) : font{font} {
         const FontMetrics& fontMetrics = font.GetFontMetrics();
@@ -16,6 +19,12 @@ namespace qtxt {
 
         for (uint32_t codepoint : charset) {
             Glyph& glyph = font.GetGlyph(codepoint);
+            if (codepoint == 48) {
+                capHeight = glyph.GetBounds().t;
+            }
+            if (codepoint == 78) {
+                xHeight = glyph.GetBounds().t;
+            }
             GlyphGeometry glyphGeometry = GlyphGeometry(glyph, codepoint, geometryScale);
 
             glyphs.insert({codepoint, glyphGeometry});
@@ -35,6 +44,13 @@ namespace qtxt {
 
     double FontGeometry::GetAdvance(uint32_t codepointA, uint32_t codepointB) const {
         return font.GetAdvance(codepointA, codepointB, geometryScale);
+    }
+
+    double FontGeometry::GetCapHeight() const {
+        return capHeight;
+    }
+    double FontGeometry::GetXHeight() const {
+        return xHeight;
     }
 
     const std::map<std::pair<int, int>, int>& FontGeometry::GetKerning() const {

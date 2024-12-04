@@ -21,6 +21,7 @@ namespace qtxt {
         packer.SetMinimumScale(config.minScale);
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
+        packer.SetSpacing(config.spacing);
 
         packer.Pack(glyphs);
 
@@ -55,6 +56,7 @@ namespace qtxt {
         packer.SetMinimumScale(config.minScale);
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
+        packer.SetSpacing(config.spacing);
 
         packer.Pack(glyphs);
 
@@ -89,6 +91,9 @@ namespace qtxt {
         packer.SetMinimumScale(config.minScale);
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
+        packer.SetSpacing(config.spacing);
+
+        packer.SetSpacing(1);
 
         packer.Pack(glyphs);
 
@@ -123,6 +128,7 @@ namespace qtxt {
         packer.SetMinimumScale(config.minScale);
         packer.SetOriginPixelAlignment(config.alignPxOrigin);
         packer.SetPixelRange(config.pxRange);
+        packer.SetSpacing(config.spacing);
 
         packer.Pack(glyphs);
 

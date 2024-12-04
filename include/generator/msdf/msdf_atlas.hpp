@@ -18,6 +18,7 @@ namespace qtxt {
         double maxCornerAngle = 3.0;
         int threadCount = 4.0;
         bool alignPxOrigin = true;
+        int spacing = 0.0;
     };
     
     Image<uint8_t, 1> GenerateSDFAtlas(FontGeometry& fontGeometry, AtlasConfig config = {});

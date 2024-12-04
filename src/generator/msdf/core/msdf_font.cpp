@@ -19,6 +19,7 @@ namespace qtxt {
     using SIMPLEGLYPH = GLYF::SIMPLEGLYPH;
     using COMPOUNDGLYPH = GLYF::COMPOUNDGLYPH;
     using COMPONENTGLYPH = COMPOUNDGLYPH::COMPONENTGLYPH;
+    using TRANSFORM = COMPONENTGLYPH::TRANSFORM;
     using TRANSFORM0 = COMPONENTGLYPH::TRANSFORM0;
     using TRANSFORM1 = COMPONENTGLYPH::TRANSFORM1;
     using TRANSFORM2 = COMPONENTGLYPH::TRANSFORM2;
@@ -220,10 +221,10 @@ namespace qtxt {
             std::vector<SIMPLEGLYPH::POINT> temp_points(&simple_glyph->points[startIndex], &simple_glyph->points[endIndex]);
             std::vector<TempPoint> points = CreateContourWithImpliedPointsSimple(temp_points.data(), temp_points.size());
             uint16_t numPoints = points.size();
-
-            for (uint16_t i = 0; i < numPoints; ++i) {
-                const TempPoint& p0 = points[i];
-                const TempPoint& p1 = points[(i + 1) % numPoints];
+            
+            for (uint16_t j = 0; j < numPoints; ++j) {
+                const TempPoint& p0 = points[j];
+                const TempPoint& p1 = points[(j + 1) % numPoints];
 
                 if (p1.onCurve) {
                     vec2 start = p0.coords;
@@ -232,30 +233,49 @@ namespace qtxt {
                     continue;
                 }
 
-                const TempPoint& p2 = points[(i + 2) % numPoints];
+                const TempPoint& p2 = points[(j + 2) % numPoints];
 
                 if (p2.onCurve) {
                     vec2 start = p0.coords;
                     vec2 control = p1.coords;
                     vec2 end = p2.coords;
                     contour.AddEdge(EdgeHolder(start, control, end));
-                    ++i;
+                    ++j;
                     continue;
                 }
 
-                const TempPoint& p3 = points[(i + 3) % numPoints];
+                const TempPoint& p3 = points[(j + 3) % numPoints];
                 vec2 start = p0.coords;
                 vec2 control1 = p1.coords;
                 vec2 control2 = p2.coords;
                 vec2 end = p3.coords;
                 contour.AddEdge(EdgeHolder(start, control1, control2, end));
-                i += 2;
+                j += 2;
             }
             shape.AddContour(contour);
             startIndex = endIndex;
         }
         return shape;
     }
+
+    vec2 ApplyTransform(vec2 v, TRANSFORM* transform, int type, qbn::vec2<int16_t> offset) {
+        vec2 o = qbn::vectype_cast<double>(offset);
+        if (type == 0) {
+            return v + o;
+        } else if (type == 1) {
+            TRANSFORM1& transform1 = *((TRANSFORM1*)transform);
+            return transform1.scale * v + o;
+        } else if (type == 2) {
+            TRANSFORM2& transform2 = *((TRANSFORM2*)transform);
+            return transform2.scale * v + o;
+        } else if (type == 3) {
+            TRANSFORM3& transform3 = *((TRANSFORM3*)transform);
+            return transform3.scale * v + o;
+        }
+
+        return vec2(0.0, 0.0);
+    }
+
     Shape CreateShapeFromCompoundGlyph(GLYPH** glyphs, uint32_t index) {
         Shape shape;
         COMPOUNDGLYPH* compound_glyph = (COMPOUNDGLYPH*)(glyphs[index]);
@@ -264,51 +284,44 @@ namespace qtxt {
             const SIMPLEGLYPH* simple_glyph = (SIMPLEGLYPH*)(glyphs[component_glyph.glyphIndex]);
             uint16_t startIndex = 0;
             for (int j = 0; j < simple_glyph->numberOfContours; ++j) {
-                uint16_t endIndex = simple_glyph->endPtsOfContours[j] - 1;
-                std::vector<SIMPLEGLYPH::POINT> points(&simple_glyph->points[startIndex], &simple_glyph->points[endIndex]);
-                std::vector<vec2> d_points = CreateContourWithImpliedPoints(points.data(), points.size()); // points (double type vec)
-                uint32_t numPoints = d_points.size();
+                uint16_t endIndex = simple_glyph->endPtsOfContours[j] + 1;
                 Contour contour;
-                int type = static_cast<int>(component_glyph.transform->transformType);
-                if (type == 0) {
-                    for (int k = 0; k < numPoints; k += 2) {
-                        vec2 p0 = d_points[k] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p1 = d_points[(k + 1) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p2 = d_points[(k + 2) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        contour.AddEdge(EdgeHolder(p0, p1, p2));
+                std::vector<SIMPLEGLYPH::POINT> temp_points(&simple_glyph->points[startIndex], &simple_glyph->points[endIndex]);
+                std::vector<TempPoint> points = CreateContourWithImpliedPointsSimple(temp_points.data(), temp_points.size());
+                uint16_t numPoints = points.size();
+
+                for (uint16_t k = 0; k < numPoints; ++k) {
+                    const TempPoint& p0 = points[k];
+                    const TempPoint& p1 = points[(k + 1) % numPoints];
+
+                    if (p1.onCurve) {
+                        vec2 start = ApplyTransform(p0.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                        vec2 end = ApplyTransform(p1.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                        contour.AddEdge(EdgeHolder(start, end));
+                        continue;
                     }
-                } else if (type == 1) {
-                    TRANSFORM1& transform = *static_cast<TRANSFORM1*>(component_glyph.transform);
-                    for (int k = 0; k < numPoints; k += 2) {
-                        vec2 p0 = transform.scale * d_points[k] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p1 = transform.scale * d_points[(k + 1) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p2 = transform.scale * d_points[(k + 2) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        contour.AddEdge(EdgeHolder(p0, p1, p2));
+
+                    const TempPoint& p2 = points[(k + 2) % numPoints];
+
+                    if (p2.onCurve) {
+                        vec2 start = ApplyTransform(p0.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                        vec2 control = ApplyTransform(p1.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                        vec2 end = ApplyTransform(p2.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                        contour.AddEdge(EdgeHolder(start, control, end));
+                        ++k;
+                        continue;
                     }
-                } else if (type == 2) {
-                    TRANSFORM2& transform = *static_cast<TRANSFORM2*>(component_glyph.transform);
-                    vec2 scale = transform.scale;
-                    for (int k = 0; k < numPoints; k += 2) {
-                        vec2 p0 = scale * d_points[k] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p1 = scale * d_points[(k + 1) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p2 = scale * d_points[(k + 2) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        contour.AddEdge(EdgeHolder(p0, p1, p2));
-                    }
-                } else if (type == 3) {
-                    TRANSFORM3& transform = *static_cast<TRANSFORM3*>(component_glyph.transform);
-                    qbn::mat<double, 2> scale = transform.scale;
-                    for (int k = 0; k < numPoints; k += 2) {
-                        vec2 p0 = scale * d_points[k] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p1 = scale * d_points[(k + 1) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        vec2 p2 = scale * d_points[(k + 2) % numPoints] + qbn::vectype_cast<double>(component_glyph.offset);
-                        contour.AddEdge(EdgeHolder(p0, p1, p2));
-                    }
-                } else {
-                    throw std::runtime_error("Invalid transformation type.");
+
+                    const TempPoint& p3 = points[(k + 3) % numPoints];
+                    vec2 start = ApplyTransform(p0.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                    vec2 control1 = ApplyTransform(p1.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                    vec2 control2 = ApplyTransform(p2.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                    vec2 end = ApplyTransform(p3.coords, component_glyph.transform, (int)component_glyph.transform->transformType, component_glyph.offset);
+                    contour.AddEdge(EdgeHolder(start, control1, control2, end));
+                    k += 2;
                 }
-                
                 shape.AddContour(contour);
-                startIndex = endIndex + 1;
+                startIndex = endIndex;
             }
         }
         return shape;
