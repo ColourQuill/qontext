@@ -47,14 +47,14 @@ namespace qtxt {
     void Reader<BINARY>::SkipBytes(const unsigned long long bytes) {
         position += bytes;
         if (position >= size) {
-            position = size;
+            position = size - 1;
         }
     }
     // Sets current position in buffer
     void Reader<BINARY>::SetCurrentByte(const unsigned long long byte) {
         position = byte;
         if (position >= size) {
-            position = size;
+            position = size - 1;
         }
     }
     // Resets position in buffer
@@ -65,6 +65,54 @@ namespace qtxt {
     // *********************************************************************************************
     //                             TEXT READER STRUCT DEFINITIONS
     // *********************************************************************************************
+
+    void Reader<TEXT>::ReadFile(const std::string& path) {
+        ReadFile(path.c_str());
+    }
+    void Reader<TEXT>::ReadFile(const char* path) {
+        std::ifstream file(path);
+        if (!file.is_open()) {
+            std::runtime_error("Failed to open file: " + std::string(path));
+        }
+
+        buffer.clear();
+        std::string line;
+        while (std::getline(file, line)) {
+            buffer.push_back(line);
+        }
+        file.close();
+
+        totalLines = buffer.size();
+        position = 0;
+    }
+    void Reader<TEXT>::ClearBuffer() {
+        buffer.clear();
+        position = 0;
+        totalLines = 0;
+    }
+
+    void Reader<TEXT>::SkipLines(unsigned long long lines) {
+        position += lines;
+        if (position >= totalLines) {
+            position = totalLines - 1;
+        }
+    }
+    void Reader<TEXT>::SetCurrentLine(unsigned long long line) {
+        position = line;
+        if (position >= totalLines) {
+            position = totalLines - 1;
+        }
+    }
+    void Reader<TEXT>::ResetCurrentLine() {
+        position = 0;
+    }
+    std::string Reader<TEXT>::ReadLine() {
+        if (position < totalLines) {
+            return buffer[position++];
+        } else {
+            return buffer[totalLines - 1];
+        }
+    }
 
     // *********************************************************************************************
     //                           BIG ENDIAN READER STRUCT DEFINITIONS

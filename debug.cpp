@@ -6,6 +6,8 @@
 
 #include <msdf/atlas/font_geometry.hpp>
 
+#include <config_reader.hpp>
+
 namespace qtxt {
     template<typename T>
     static bool WriteValue(FILE* file, T value) {
@@ -135,48 +137,6 @@ namespace qtxt {
 
         return !fclose(file);
     }
-    static void ParseColoring(Shape& shape, const char* edgeAssigment) {
-        unsigned c = 0, e = 0;
-        if (shape.contours.size() < c) return;
-        Contour* contour = &shape.contours[c];
-        bool change = false;
-        bool clear = true;
-        for (const char* in = edgeAssigment; *in; ++in) {
-            switch (*in) {
-                case ',':
-                if (change)
-                    ++e;
-                if (clear)
-                    while (e < contour->edges.size()) {
-                        contour->edges[e]->color = WHITE;
-                        ++e;
-                    }
-                ++c, e = 0;
-                if (shape.contours.size() <= c) return;
-                contour = &shape.contours[c];
-                change = false;
-                clear = true;
-                break;
-            case '?':
-                clear = false;
-                break;
-            case 'C': case 'M': case 'W': case 'Y': case 'c': case 'm': case 'w': case 'y':
-                if (change) {
-                    ++e;
-                    change = false;
-                }
-                if (e < contour->edges.size()) {
-                    contour->edges[e]->color = EdgeColor(
-                        (*in == 'C' || *in == 'c')*CYAN|
-                        (*in == 'M' || *in == 'm')*MAGENTA|
-                        (*in == 'Y' || *in == 'y')*YELLOW|
-                        (*in == 'W' || *in == 'w')*WHITE);
-                    change = true;
-                }
-                break;
-            }
-        } 
-    }
 }
 
 int main() {
@@ -186,6 +146,9 @@ int main() {
     auto image = qtxt::GenerateMSDFAtlas(fontGeometry);
 
     qtxt::SaveBMP(image, "atlas.bmp");
+
+    qtxt::Reader<qtxt::Config> configReader;
+    auto config = configReader.GetConfigFromFile("resources/test.conf");
 
     return 0;
 }

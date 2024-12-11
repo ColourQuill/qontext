@@ -37,7 +37,7 @@ set(CORE_SOURCES
     ${CORE}/info/endianness.cpp
 )
 set(FILE_TYPES_SOURCES
-
+    ${FILE_TYPES}/config.cpp
 )
 set(GENERATOR_SOURCES
     ${GENERATOR}/msdf/core/projection.cpp
@@ -76,6 +76,7 @@ set(GENERATOR_SOURCES
 set(READER_SOURCES
     ${READER}/reader.cpp
     ${READER}/ttf_reader.cpp
+    ${READER}/config_reader.cpp
 )
 set(WRITER_SOURCES
 
@@ -85,6 +86,7 @@ set(WRITER_SOURCES
 set(SOURCES
     ${CORE_SOURCES}
     ${READER_SOURCES}
+    ${FILE_TYPES_SOURCES}
     ${GENERATOR_SOURCES}
 )
 

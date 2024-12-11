@@ -5,6 +5,7 @@
 #include <core/info/endianness.hpp>
 
 // std
+#include <vector>
 #include <string>
 
 // reader types
@@ -32,7 +33,24 @@ namespace qtxt {
             unsigned long long size;
             Endianness endianness;
     };
-    template<> struct Reader<TEXT> {};
+    template<> struct Reader<TEXT> {
+        void ReadFile(const std::string& path);
+        void ReadFile(const char* path);
+        void ClearBuffer();
+
+        void SkipLines(unsigned long long lines);
+        void SetCurrentLine(unsigned long long line);
+        void ResetCurrentLine();
+        std::string ReadLine();
+
+        unsigned long long GetPosition() { return position; }
+
+        std::vector<std::string> buffer;
+
+        protected:
+            unsigned long long position = 0;
+            unsigned long long totalLines = 0;
+    };
 
     template<> struct Reader<BIGENDIAN> : public Reader<BINARY> {
         uint8_t ReadUInt8();
