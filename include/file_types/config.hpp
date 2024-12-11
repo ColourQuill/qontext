@@ -19,6 +19,8 @@ namespace qtxt {
             };
 
             std::map<std::string, Section> data;
+
+            void SetValue(std::string header, std::string key, std::string value);
     };
 }
 

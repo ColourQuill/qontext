@@ -79,13 +79,15 @@ set(READER_SOURCES
     ${READER}/config_reader.cpp
 )
 set(WRITER_SOURCES
-
+    ${WRITER}/writer.cpp
+    ${WRITER}/config_writer.cpp
 )
 
 # List of all source files
 set(SOURCES
     ${CORE_SOURCES}
     ${READER_SOURCES}
+    ${WRITER_SOURCES}
     ${FILE_TYPES_SOURCES}
     ${GENERATOR_SOURCES}
 )

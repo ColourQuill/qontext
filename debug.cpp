@@ -8,6 +8,9 @@
 
 #include <config_reader.hpp>
 
+#include <writer.hpp>
+#include <config_writer.hpp>
+
 namespace qtxt {
     template<typename T>
     static bool WriteValue(FILE* file, T value) {
@@ -149,6 +152,11 @@ int main() {
 
     qtxt::Reader<qtxt::Config> configReader;
     auto config = configReader.GetConfigFromFile("resources/test.conf");
+
+    config.SetValue("Settings", "allow_fairies", "false");
+
+    qtxt::Writer<qtxt::Config> configWriter;
+    configWriter.OverwriteConfig("resources/test.conf", config);
 
     return 0;
 }

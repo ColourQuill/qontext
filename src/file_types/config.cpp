@@ -32,4 +32,8 @@ namespace qtxt {
             return false;
         }
     }
+
+    void Config::SetValue(std::string header, std::string key, std::string value) {
+        data[header].data[key] = value;
+    }
 }
