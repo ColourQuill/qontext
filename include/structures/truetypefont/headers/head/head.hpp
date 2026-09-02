@@ -1,5 +1,5 @@
-#ifndef __TTF_HEAD_HPP__
-#define __TTF_HEAD_HPP__
+#ifndef __QONTEXT_TTF_HEAD_HPP__
+#define __QONTEXT_TTF_HEAD_HPP__
 
 // qarbon
 #include <qarbon.hpp>

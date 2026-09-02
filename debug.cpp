@@ -1,11 +1,7 @@
-#include <iostream>
-
-#include <filesystem>
+#include <msdf/msdf.hpp>
 
 int main() {
-    std::filesystem::current_path(std::filesystem::canonical("/proc/self/exe").parent_path());
-
-    
+    auto atlas = qtxt::MSDF::load("resources/arial.ttf");
 
     return 0;
 }

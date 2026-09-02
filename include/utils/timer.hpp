@@ -6,11 +6,11 @@
 namespace qtxt {
     class Timer {
         public:
-            void Start();
-            double End();
+            void start();
+            double end();
         private:
-            std::chrono::time_point<std::chrono::high_resolution_clock> start;
-            std::chrono::time_point<std::chrono::high_resolution_clock> end;
+            std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
+            std::chrono::time_point<std::chrono::high_resolution_clock> m_end;
     };
 }
 

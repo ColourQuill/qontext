@@ -1,5 +1,5 @@
-#ifndef __TYPE_DEFS_HPP__
-#define __TYPE_DEFS_HPP__
+#ifndef __QONTEXT_TYPE_DEFS_HPP__
+#define __QONTEXT_TYPE_DEFS_HPP__
 
 // std
 #include <cstdint>

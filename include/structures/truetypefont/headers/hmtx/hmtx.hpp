@@ -1,5 +1,5 @@
-#ifndef __TTF_HMTX_HPP__
-#define __TTF_HMTX_HPP__
+#ifndef __QONTEXT_TTF_HMTX_HPP__
+#define __QONTEXT_TTF_HMTX_HPP__
 
 // qontext
 #include <info/type_defs.hpp>

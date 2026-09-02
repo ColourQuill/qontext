@@ -1,5 +1,5 @@
-#ifndef __TTF_KERN_HPP__
-#define __TTF_KERN_HPP__
+#ifndef __QONTEXT_TTF_KERN_HPP__
+#define __QONTEXT_TTF_KERN_HPP__
 
 // qontext
 #include <info/type_defs.hpp>
@@ -78,7 +78,7 @@ namespace qtxt {
         };
 
         struct Subtable2 : public Subtable { // Currently unsupported
-
+            
         };
 
         struct Subtable3 : public Subtable { // Currently unsupported

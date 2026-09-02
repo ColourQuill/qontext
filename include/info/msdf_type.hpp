@@ -1,5 +1,5 @@
-#ifndef __MSDF_TYPE_HPP__
-#define __MSDF_TYPE_HPP__
+#ifndef __QONTEXT_MSDF_TYPE_HPP__
+#define __QONTEXT_MSDF_TYPE_HPP__
 
 namespace qtxt {
     enum class MSDFType {

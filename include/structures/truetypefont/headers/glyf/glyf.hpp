@@ -1,5 +1,5 @@
-#ifndef __TTF_GLYF_HPP__
-#define __TTF_GLYF_HPP__
+#ifndef __QONTEXT_TTF_GLYF_HPP__
+#define __QONTEXT_TTF_GLYF_HPP__
 
 // qontext
 #include <truetypefont/headers/glyf/glyf_glyph.hpp>
@@ -18,7 +18,7 @@ namespace qtxt {
         }
 
         uint32_t offset;
-        Glyph** glyphs{nullptr};
+        TTFGlyph** glyphs{nullptr};
         uint32_t numGlyphs;
     };
 }

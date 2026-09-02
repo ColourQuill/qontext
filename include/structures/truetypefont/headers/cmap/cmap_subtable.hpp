@@ -1,5 +1,5 @@
-#ifndef __TTF_CMAP_SUBTABLE_HPP__
-#define __TTF_CMAP_SUBTABLE_HPP__
+#ifndef __QONTEXT_TTF_CMAP_SUBTABLE_HPP__
+#define __QONTEXT_TTF_CMAP_SUBTABLE_HPP__
 
 // qontext
 #include <truetypefont/headers/cmap/cmap_formats.hpp>

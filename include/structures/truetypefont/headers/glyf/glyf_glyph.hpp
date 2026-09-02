@@ -1,5 +1,5 @@
-#ifndef __TTF_GLYPH_HPP__
-#define __TTF_GLYPH_HPP__
+#ifndef __QONTEXT_TTF_GLYPH_HPP__
+#define __QONTEXT_TTF_GLYPH_HPP__
 
 // std
 #include <info/type_defs.hpp>
@@ -8,8 +8,8 @@
 #include <qarbon.hpp>
 
 namespace qtxt {
-    struct Glyph {
-        virtual ~Glyph() = default;
+    struct TTFGlyph {
+        virtual ~TTFGlyph() = default;
         uint8_t glyphType;
     };
 
@@ -18,7 +18,7 @@ namespace qtxt {
         bool onCurve;
     };
 
-    struct SimpleGlyph : public Glyph {
+    struct SimpleGlyph : public TTFGlyph {
         ~SimpleGlyph() {
             if (endPtsOfContours != nullptr) {
                 delete[] endPtsOfContours;
@@ -76,7 +76,7 @@ namespace qtxt {
         Transform* transform{nullptr};
     };
 
-    struct CompoundGlyph : public Glyph {
+    struct CompoundGlyph : public TTFGlyph {
         int16_t numberOfContours; // 'If the number of contours is positive or zero, it is a simple glyph; If the number of contours less than zero, the glyph is compound'
         qbn::vec2<FWord> min; // Minimum coordinate data
         qbn::vec2<FWord> max; // Maximum coordinate data

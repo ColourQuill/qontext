@@ -1,5 +1,5 @@
-#ifndef __TTF_POST_HPP__
-#define __TTF_POST_HPP__
+#ifndef __QONTEXT_TTF_POST_HPP__
+#define __QONTEXT_TTF_POST_HPP__
 
 // qontext
 #include <info/type_defs.hpp>

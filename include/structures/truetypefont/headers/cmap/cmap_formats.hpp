@@ -1,5 +1,5 @@
-#ifndef __TTF_CMAP_FORMATS_HPP__
-#define __TTF_CMAP_FORMATS_HPP__
+#ifndef __QONTEXT_TTF_CMAP_FORMATS_HPP__
+#define __QONTEXT_TTF_CMAP_FORMATS_HPP__
 
 // std
 #include <iostream>
@@ -260,7 +260,7 @@ namespace qtxt {
         Format* clone() const override {
             Format13* copy = new Format13(*this);
             if (nGroups > 0) {
-                copy->groups = new GROUP[nGroups];
+                copy->groups = new Group[nGroups];
                 std::copy(groups, groups + nGroups, copy->groups);
             }
             return copy;
@@ -271,13 +271,13 @@ namespace qtxt {
         uint32_t language; // 'Language code'
         uint32_t nGroups; // 'Number of groups which follow'
 
-        struct GROUP {
+        struct Group {
             uint32_t startCharCode; // 'First character code in this group'
             uint32_t endCharCode; // 'Last character code in this group'
             uint32_t startGlyphCode; // 'Glyph index for this group'
         };
 
-        GROUP* groups{nullptr};
+        Group* groups{nullptr};
     };
 
     struct Format14 : public Format {

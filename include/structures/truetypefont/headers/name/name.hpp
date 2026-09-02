@@ -1,5 +1,5 @@
-#ifndef __TTF_NAME_HPP__
-#define __TTF_NAME_HPP__
+#ifndef __QONTEXT_TTF_NAME_HPP__
+#define __QONTEXT_TTF_NAME_HPP__
 
 // std
 #include <string>

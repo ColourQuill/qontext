@@ -1,0 +1,6 @@
+#ifndef __QONTEXT_GRID_ATLAS_PACKER_HPP__
+#define __QONTEXT_GRID_ATLAS_PACKER_HPP__
+
+
+
+#endif

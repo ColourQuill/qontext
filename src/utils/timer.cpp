@@ -1,12 +1,12 @@
 #include <utils/timer.hpp>
 
 namespace qtxt {
-    void Timer::Start() {
-        start = std::chrono::high_resolution_clock::now();
+    void Timer::start() {
+        m_start = std::chrono::high_resolution_clock::now();
     }
-    double Timer::End() {
-        end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> duration = end - start;
+    double Timer::end() {
+        m_end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> duration = m_end - m_start;
         return duration.count();
     }
 }
